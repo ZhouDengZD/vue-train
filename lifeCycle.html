@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lifeCyle</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="lifeCyle">
+        <div>{{message}}</div>
+        <input type='text' v-model="message"/>
+    </div>
+    <script>
+        let data={name:"vue.js"};
+
+        var app3 = new Vue({
+            el: '#lifeCyle',
+            data: {
+                per:data,
+                message: 'hello，zhou !'
+            },
+            beforeCreate:function() {
+                console.log('创建前,el：',this.$el);   //undefined
+                console.log('创建前,data：',this.$data);   //undefined
+                console.log('创建前,message：',this.message);   //undefined
+            },
+            created:function() {
+                console.log('创建后,el：',this.$el);   //undefined
+                console.log('创建后,data：',this.$data);   //object
+                console.log('创建后,message：',this.message);   //hello, zhou!
+            },
+            beforeMount:function() {
+                console.log('挂载前,el：',this.$el);   //<div id="lifeCycle'>... hello, zhou! ...</div>
+                console.log('挂载前,data：',this.$data);   //object
+                console.log('挂载前,data.per：',this.$data.per);   //object
+                console.log('挂载前,message：',this.message);   //hello, zhou!
+            },
+            mounted:function() {
+                console.log('挂载后,el：',this.$el);   //<div id="lifeCycle'>... hello, zhou! ...</div>
+                console.log('挂载后,data：',this.$data);   //object
+                console.log('挂载后,message：',this.message);   //hello, zhou!
+            },
+            //在输入框中输入deng
+            beforeUpdate:function(){
+                console.log('更新前,el：',this.$el);   //<div id="lifeCycle'>... deng ...</div>
+                console.log('更新前,data：',this.$data);
+                console.log('更新前,message：',this.message);   //deng
+            },
+            updated:function() {
+                console.log('更新后,el：',this.$el);   //<div id="lifeCycle'>... deng ...</div>
+                console.log('创建前,data：',this.$data);
+                console.log('更新后,message：',this.message);   //deng
+
+                // this.$destroy();  //更新后立即摧毁组件摧毁组件
+                //若在此调用了该方法，上面输入“deng”时，仅输入d时就触发更新，就触发了组件销毁
+                //更新的$el会变为：<div id="lifeCycle'>... d ...</div>
+            },
+            beforeDestroy:function() {
+                console.log('即将摧毁组件...');
+                console.log('摧毁前,el：',this.$el);   //<div id="lifeCycle'>... d ...</div>
+                console.log('摧毁前,message：',this.message);   //d
+            },
+            destroyed:function() {
+                console.log('成功摧毁！');  
+                console.log('摧毁后,el：',this.$el);   //<div id="lifeCycle'>... d ...</div>
+                console.log('摧毁后,message：',this.message);   //d
+            }
+            //组件销毁后，不可再输入值。
+        })</script>
+</body>
+
+</html>
